@@ -7,7 +7,14 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/home')
+    component: () => import('@/views/home'),
+    meta: { title: '首页' }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: ()  => import('@/views/login'),
+    meta: { title: '登录' }
   }
 ]
 
