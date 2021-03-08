@@ -21,7 +21,10 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitLoginForm('ruleForm')" style="width: 100%">登录</el-button>
+        <el-button type="primary" @click="submitLoginForm('loginForm')" style="width: 100%">
+          <i v-if="loading" class="el-icon-loading"></i>
+          登录
+        </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -67,7 +70,23 @@ export default {
       this.$refs[refName].validate(valid => {
         if (valid) {
           this.loading = true;
-          
+          this.$http.post('login',this.loginForm)
+            .then(res => {
+              const { data: response } = res
+              if (response.meta.status === 200) {
+                sessionStorage.setItem('token' ,response.data.token)
+                this.$router.replace('/')
+                this.$message({ message: '登录成功', type: 'success' })
+              } else {
+                this.$message({ message: '登录失败，请检查用户名和密码', type: 'error' })
+              }
+            })
+            .catch(err => {
+              this.$alert('服务器繁忙，请稍后重试！', '登录失败', {
+                confirmButtonText: '确定'
+              })
+              throw new Error(err)
+            })
         }
       })
     }
