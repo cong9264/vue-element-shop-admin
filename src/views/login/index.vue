@@ -74,7 +74,7 @@ export default {
             .then(res => {
               const { data: response } = res
               if (response.meta.status === 200) {
-                sessionStorage.setItem('token' ,response.data.token)
+                window.sessionStorage.setItem('token' ,response.data.token)
                 this.$router.replace('/')
                 this.$message({ message: '登录成功', type: 'success' })
               } else {

@@ -1,24 +1,34 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Layout from '@/layout'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/home',
+    hidden: true
   },
   {
     path: '/login',
     name: 'Login',
-    component: ()  => import('@/views/login'),
-    meta: { title: '登录' }
+    component: ()  => import('@/views/login/index.vue'),
+    meta: { title: '登录' },
+    hidden: true
   },
   {
     path: '/home',
-    name: 'Home',
-    component: () => import('@/views/home'),
-    meta: { title: '首页' }
+    component: Layout,
+    redirect: '/home/index',
+    children: [
+      {
+        path: 'index',
+        name: 'Home',
+        component: () => import('@/views/home/index.vue'),
+        meta: { title: '首页' },
+      }
+    ]
   }
 ]
 
