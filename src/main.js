@@ -5,7 +5,8 @@ import store from './store'
 
 import 'normalize.css/normalize.css'
 import '@/assets/style/index.css'
-import ElementUI from 'element-ui'
+// import ElementUI from 'element-ui'
+import '@/element/index.js'
 import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 
@@ -15,7 +16,16 @@ axios.interceptors.request.use(config => {
   config.headers.Authorization = window.sessionStorage.getItem('token');
   return config;
 });
-Vue.use(ElementUI)
+axios.interceptors.response.use(config => {
+  const { data } = config;
+  if (data.meta.status !== 200) {
+    // this.$message({ message: data.meta.msg, type: 'error' });
+    alert(data.meta.msg)
+  }
+  return config;
+})
+
+// Vue.use(ElementUI)
 Vue.prototype.$http = axios
 
 new Vue({

@@ -3,7 +3,7 @@
     <el-scrollbar>
       <el-menu>
         <side-item 
-          v-for="route in routes" 
+          v-for="route in menuList.data" 
           :key="route.path"
           :item="route"
         >
@@ -19,10 +19,26 @@ export default {
   components: {
     sideItem: require('./SideItem').default
   },
+  data () {
+    return {
+      menuList: []
+    };
+  },
+  created () {
+    this.getMenuList();
+  },
   computed: {
     routes () {
-      return this.$router.options.routes
+      return this.$router.options.routes;
     } 
+  },
+  methods: {
+    getMenuList () {
+      this.$http.get('menus')
+        .then(res => {
+          this.menuList = res.data;
+        })
+    }
   }
 }
 </script>

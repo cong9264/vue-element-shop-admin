@@ -9,7 +9,13 @@ import {
   Container,
   Header,
   Aside,
-  Main
+  Main,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  Menu,
+  scrollbar,
+  Submenu
 } from 'element-ui'
 
 Vue.use(Button)
@@ -20,6 +26,12 @@ Vue.use(Container)
 Vue.use(Header)
 Vue.use(Aside)
 Vue.use(Main)
+Vue.use(Dropdown)
+Vue.use(DropdownItem)
+Vue.use(DropdownMenu)
+Vue.use(Menu)
+Vue.use(scrollbar)
+Vue.use(Submenu)
 
 Vue.prototype.$message = Message
 Vue.prototype.$alert = Alert

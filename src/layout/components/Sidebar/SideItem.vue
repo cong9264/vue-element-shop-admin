@@ -1,13 +1,20 @@
 <template>
-  <div v-if="!item.hidden">
+  <div>
     <template v-if="hasOneShowingChild(item)">
-      <router-link :to="item.path" style="display:block; background-color: #304156; height: 56px; padding-left: 20px; line-height: 56px; color: #ccc">
+      <router-link :to="item.path">
         <span>
-            {{childData.meta.title}}
+            {{childData.authName}}
         </span>
       </router-link>
     </template>
-    <el-submenu v-else>
+    <el-submenu v-else :index='item.path'>
+      <template slot="title">
+        <span
+          v-if="item.authName"
+        >
+          {{ item.authName }}
+        </span>
+      </template>
       <side-item
         v-for="child in item.children"
         :key="child.path"
@@ -15,7 +22,6 @@
       >
       </side-item>
     </el-submenu>
-    
   </div>
 </template>
 
@@ -34,28 +40,41 @@ export default {
     }
   },
   methods: {
-    hasOneShowingChild ({ children = [], parent }) {
-      const showingChildren = children.filter(item => {
-        if (item.hidden) {
-          return false;
-        } else {
-          this.childData = item;
-          return true;
-        }
-      })
-      if (showingChildren.length === 1) {
-        return true
+    hasOneShowingChild (item) {
+      if (item.children.length) {
+        return false;
+      } else {
+        this.childData = item;
+        return true;
       }
-      if (showingChildren.length === 0) {
-        this.childData = { ...parent, path: '', noShowingChildren: true }
-        return true
-      }
-      return false
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+/deep/ .el-submenu__title {
+  display: block;
+  height: 56px;
+  line-height: 56px;
+  font-size: 14px;
+  color: #ccc;
+  background-color: #304156;
+  &:hover {
+    background-color: #263445;
+  }
+}
 
+/deep/ .el-menu {
+  background-color: #1f2d3d;
+  display:block;
+  padding-left: 20px; 
+  line-height: 56px;
+  font-size: 14px;
+  color: #ccc;
+  a:hover {
+    transition: background-color .3s;
+    background-color: #001528;
+  }
+}
 </style>
